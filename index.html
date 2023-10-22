@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  <title>Linux Terminal</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="box text">
+Peter Petropoulos
+<br>Software engineer &bull; Web Developer
+<br><a href="//portfolio.petros.xyz">//portfolio.petros.xyz</a>
+<br>&copy; <script>document.write(new Date().getFullYear())</script> designed by me
+</div>
+<div class="box reload"><a href=".">Reload</a></div>
+<div class="box poweroff"><a href="javascript:close_window();">Power off</a></div>
+<div>
+  <span id="loader">&#10074;&nbsp;</span>
+</div>
+<table id="tty" class="terminal" cellpadding="0" cellspacing="0">
+</table>
+
+<script src="jor1k-master-min.js"></script>
+
+<script>
+
+var Jor1k = require("Jor1k");
+var LinuxTerm = require("LinuxTerm");
+
+jor1kgui = new Jor1k(
+    {
+        term: new LinuxTerm("tty"),
+        path: "openrisc-sys/",
+        system: {
+            kernelURL: "kernel/vmlinux.bin.bz2"
+        },
+        fs: {
+            basefsURL: "basefs-compile.json"
+        }
+    });
+
+    function close_window() {
+      if (confirm("Close Window?")) {
+        close();
+      }
+    }
+
+    var paragraph = document.getElementById("loader");
+    // This will be repeated 5 times with 1 second intervals:
+    setIntervalX(function () {
+        // Your logic here
+         paragraph.textContent += String.fromCharCode(10074)+" ";
+    }, 333, 17);
+
+    function setIntervalX(callback, delay, repetitions) {
+        var x = 0;
+        var intervalID = window.setInterval(function () {
+
+           callback();
+
+           if (++x === repetitions) {
+               window.clearInterval(intervalID);
+           }
+        }, delay);
+    }
+</script>
+</body>
+</html>
